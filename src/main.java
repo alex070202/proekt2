@@ -2,6 +2,14 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class main {
+    static String[] names = new String[100];
+    static long[] egns = new long[100];
+    static String[] emails = new String[100];
+    static byte[] startDates = new byte[100];
+    static byte[] endDates = new byte[100];
+    static String[] types = new String[100];
+    static int index = 0;
+
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         int number;
@@ -14,73 +22,65 @@ public class main {
             System.out.println("5. Изход");
             System.out.println(" ---------------------------------------------");
             number = input.nextInt();
-            byte startDate = 0;
-            byte endDate = 0;
-            int numberInput = input1(number, input, startDate, endDate);
+
+            input1(number, input);
         }
         while (number != 5);
 
 
     }
 
-    public static int input1(int number, Scanner input, byte startDate, byte endDate) {
+    public static void input1(int number, Scanner input) {
 
         switch (number) {
             case 1:
                 System.out.println("Въведете име :");
-                String name = input.nextLine();
-                input.next();
+                String name = input.next();
                 System.out.println("Въведете имейл :");
-                String email = input.nextLine();
-                input.next();
+                String email = input.next();
                 System.out.println("Въведете егн :");
                 long egn = input.nextLong();
                 System.out.println("Въведете начална дата :");
-                startDate = input.nextByte();
+                byte startDate = input.nextByte();
                 System.out.println("Въведете крайна дата :");
-                endDate = input.nextByte();
+                byte endDate = input.nextByte();
                 System.out.println("Въведете тип на отпуската :");
                 String type = input.next();
                 if (type.equalsIgnoreCase("платена") || type.equalsIgnoreCase("неплатена")) {
+                    createRecord(name, egn, email, startDate, endDate, type);
                     break;
                 } else {
                     System.out.println("error");
                 }
+
                 break;
 
             case 2:
-                tableOfRequest(startDate, endDate);
+                printRecords();
                 break;
+            case 3:
+
         }
-        return number;
-
-
     }
 
-    public static void tableOfRequest(byte startDate, byte endDate) {
-        int[][] secondOptionTableRows = {
-                {1, startDate, endDate,},
-                {2, startDate, endDate},
-                {3, startDate, endDate}
-        };
 
-        for (int i = 0; i < secondOptionTableRows.length; i++) {
-            for (int j = 0; j < secondOptionTableRows[0].length; j++) {
-//                System.out.println(Arrays.toString(secondOptionTableRows));
-//                secondOptionTableRows[i][j] =
+    public static void createRecord(String name, long egn, String email, byte startDate, byte endDate, String type) {
+        names[index] = name;
+        egns[index] = egn;
+        emails[index] = email;
+        startDates[index] = startDate;
+        endDates[index] = endDate;
+        types[index] = type;
+//        za drugite poleta sustoto
+        index = index + 1;
+        System.out.println("dobavaqne na zapis");
+    }
 
-            }
-
-        }
-        String[] columnNames = {"Номер на заявка", "Начало на отпуска", "Край на отпуска"};
-
-        System.out.println(Arrays.toString(columnNames));
-        for (int i = 0; i < secondOptionTableRows.length; i++) {
-            System.out.println(Arrays.toString(secondOptionTableRows[i]));
-
+    public static void printRecords() {
+        System.out.println("име        егн          имейл           Начална дата            Крайна дата                       Тип на отпуската");
+        for (int i = 0; i < index; i++) {
+            System.out.println(names[i] + " " + egns[i] + "    " + emails[i] + "      " + startDates[i] + "     " + endDates[i] + "      " + types[i]);
         }
 
     }
 }
-
-
